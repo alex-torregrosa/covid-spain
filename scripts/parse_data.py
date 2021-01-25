@@ -158,14 +158,16 @@ for ccaa in comunidades_iso:
     with open(comunidades_out[ccaa], "w") as f:
         w = csv.DictWriter(f, fieldnames=tags)
         w.writeheader()
-        for date in esp_data[ccaa]:
+        dates = sorted(esp_data[ccaa].keys())
+        for date in dates:
             w.writerow(esp_data[ccaa][date])
 
 print("Escribiendo datos estatales")
 with open(data_glob_out, "w") as f:
     w = csv.DictWriter(f, fieldnames=tags)
     w.writeheader()
-    for date in datos_globales:
+    dates = sorted(datos_globales.keys())
+    for date in dates:
         w.writerow(datos_globales[date])
 
 
