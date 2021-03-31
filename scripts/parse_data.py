@@ -101,7 +101,7 @@ for f in datos_vacunas:
     with open(p.join(dir_vacunas, f)) as fp:
         act_vac = json.load(fp)
         for ccaa in act_vac:
-            if ccaa["ccaa"] == "Totales":
+            if ccaa["ccaa"] == "Totales" or ccaa["ccaa"] not in reverse_iso_vacunas:
                 continue
             ccaa_iso = reverse_iso_vacunas[ccaa["ccaa"]]
             if act_date in esp_data[ccaa_iso]:
