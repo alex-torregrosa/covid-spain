@@ -93,9 +93,11 @@ with open(data_file) as csv_f:
 dir_vacunas = p.join(data_dir, "vacunas")
 datos_vacunas = listdir(dir_vacunas)
 datos_vacunas.sort()
-act_vacunados = {}
+act_vacunados_1 = {}
+act_vacunados_2 = {}
 for ccaa in comunidades_iso:
-    act_vacunados[ccaa] = 0;
+    act_vacunados_1[ccaa] = 0;
+    act_vacunados_2[ccaa] = 0;
 for f in datos_vacunas:
     act_date = f[:-5]
     with open(p.join(dir_vacunas, f)) as fp:
@@ -105,10 +107,15 @@ for f in datos_vacunas:
                 continue
             ccaa_iso = reverse_iso_vacunas[ccaa["ccaa"]]
             if act_date in esp_data[ccaa_iso]:
-                esp_data[ccaa_iso][act_date]["vacunados_1"] = ccaa["dosisAdministradas"] - act_vacunados[ccaa_iso]
-                act_vacunados[ccaa_iso] = ccaa["dosisAdministradas"]
                 if "dosisPautaCompletada" in ccaa:
-                    esp_data[ccaa_iso][act_date]["vacunados_2"] = ccaa["dosisPautaCompletada"]
+                    esp_data[ccaa_iso][act_date]["vacunados_2"] = ccaa["dosisPautaCompletada"] - act_vacunados_2[ccaa_iso]
+                    act_vacunados_2[ccaa_iso] = ccaa["dosisPautaCompletada"]
+                else:
+                    esp_data[ccaa_iso][act_date]["vacunados_2"] = 0
+                    act_vacunados_2[ccaa_iso] = 0
+
+                esp_data[ccaa_iso][act_date]["vacunados_1"] = ccaa["dosisAdministradas"]   - act_vacunados_1[ccaa_iso] - esp_data[ccaa_iso][act_date]["vacunados_2"]
+                act_vacunados_1[ccaa_iso] = ccaa["dosisAdministradas"]
 
 
 
