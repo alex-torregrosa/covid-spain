@@ -124,7 +124,7 @@ data_cat = {}
 
 # Procesar datos de catalunya
 print("Iniciando procesado de datos CAT")
-with open(cat_file) as csv_f:
+with open(cat_file, encoding='ISO-8859-1') as csv_f:
     rd = csv.DictReader(csv_f, delimiter=';')
     for row in rd:
         #print(row)
